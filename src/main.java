@@ -1,0 +1,81 @@
+import java.util.Scanner;
+
+public class main {
+
+	private static Scanner sc = new Scanner(System.in);
+	
+	public static void main(String[] args) {
+		System.out.println("--Databáze zaměstnanců--");
+		int choice;
+		
+		do {
+			menuShow();
+			choice = sc.nextInt();
+			sc.nextLine();
+			
+			switch(choice) {
+				case 1: 
+					break;
+				case 2: 
+					break;
+				case 3: 
+					break;
+				case 4: 
+					break;
+				case 5: 
+					break;
+				case 6: 
+					break;
+				case 7: 
+					break;
+				case 8: 
+					break;
+				case 0: 
+					System.out.println("Ukončeno");
+					break;
+				default:
+					System.out.println("Neplatná volba");
+			}
+			
+		} while(choice != 0);
+	}
+		
+	private static void menuShow() {
+		System.out.println("\n--MENU--");
+		System.out.println("1. Přidat zaměstnance");
+		System.out.println("2. Přidat spolupraci");
+		System.out.println("3. Odebrat zaměstnance");
+		System.out.println("4. Vyhledat zaměstnance");
+		System.out.println("5. Spustit dovednost");
+		System.out.println("6. Výpis");
+		System.out.println("7. Statistiky");
+		System.out.println("8. Počet ve skupinách");
+		System.out.println("0. Ukončit program");
+		System.out.print("Vaše volba: ");
+	}
+	
+	private static void addWorker() {
+		System.out.println("Jméno: ");
+		String name = sc.nextLine();
+		System.out.println("Příjmení: ");
+		String surname = sc.nextLine();
+		System.out.println("Rok narození: ");
+		int year = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.println("Skupina: (1.Datový nalitik 2.Bezpečnostní specialista)");
+		int group = sc.nextInt();
+		
+		Worker worker;
+		if(group == 1) {
+			worker = new dataAnalyst(name, surname, year);
+		}
+		else if (group == 2) {
+			worker = new securitySpecialist(name, surname, year);
+		}
+		else {
+			System.out.println("Neplatná skupina");
+		}
+	}
+
+}
