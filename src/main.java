@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class main {
 
 	private static Scanner sc = new Scanner(System.in);
+	private static WorkerDatabase database= new WorkerDatabase(); 
 	
 	public static void main(String[] args) {
 		System.out.println("--Databáze zaměstnanců--");
@@ -14,7 +15,8 @@ public class main {
 			sc.nextLine();
 			
 			switch(choice) {
-				case 1: 
+				case 1:
+					addWorker();
 					break;
 				case 2: 
 					break;
@@ -68,14 +70,18 @@ public class main {
 		
 		Worker worker;
 		if(group == 1) {
-			worker = new dataAnalyst(name, surname, year);
+			worker = new DataAnalyst(name, surname, year);
 		}
 		else if (group == 2) {
-			worker = new securitySpecialist(name, surname, year);
+			worker = new SecuritySpecialist(name, surname, year);
 		}
 		else {
 			System.out.println("Neplatná skupina");
+			return;
 		}
+		
+		database.addWorker(worker);
+		System.out.printf("Zaměstnanec úspěšně přidán, ID: %d, skupina: %S",worker.getId(), worker.getGroup());
 	}
 
 }
