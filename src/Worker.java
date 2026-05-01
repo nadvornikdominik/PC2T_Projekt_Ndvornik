@@ -21,7 +21,6 @@ public abstract class Worker {
 		this.group = group;
 	}
 	
-	// Gettery 
 	public int getId() {
 		return id;
 	}
@@ -41,5 +40,8 @@ public abstract class Worker {
 		return group;
 	}
 	
-	
+	public boolean addCoorker(int id2, WorkCoop level) {
+		coworkers.put(id, level);
+		return true;
+	}
 }

@@ -1,13 +1,24 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class main {
 
 	private static Scanner sc = new Scanner(System.in);
-	private static WorkerDatabase database= new WorkerDatabase(); 
+	private static WorkerDatabase database = new WorkerDatabase();
+	
 	
 	public static void main(String[] args) {
 		System.out.println("--Databáze zaměstnanců--");
 		int choice;
+		
+		FileHandler file = new FileHandler();
+		file.createFile("Memory.txt");
+		
+		file.readFromFile(database);
 		
 		do {
 			menuShow();
@@ -18,7 +29,8 @@ public class main {
 				case 1:
 					addWorker();
 					break;
-				case 2: 
+				case 2:
+					addCoworker();
 					break;
 				case 3: 
 					break;
@@ -33,6 +45,7 @@ public class main {
 				case 8: 
 					break;
 				case 0: 
+					file.addToFile(database);
 					System.out.println("Ukončeno");
 					break;
 				default:
@@ -82,6 +95,34 @@ public class main {
 		
 		database.addWorker(worker);
 		System.out.printf("Zaměstnanec úspěšně přidán, ID: %d, skupina: %S",worker.getId(), worker.getGroup());
+	}
+	
+	private static void addCoworker() {
+		System.out.println("ID zaměstnance: ");
+		int id1 = sc.nextInt();
+		System.out.println("ID kolegy: ");
+		int id2 = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.println("Uroveň: 1 = špatná, 2 = průměrná, 3 = dobrá: ");
+		int level = sc.nextInt();
+		sc.nextLine();
+		
+
+		WorkCoop c = switch(level){
+			case 1 -> WorkCoop.BAD;
+			case 2 -> WorkCoop.AVG;
+			case 3 -> WorkCoop.GOOD;
+			default -> null;
+		};
+		
+		if(c != null && database.addCoop(id1, id2, c)) {
+			System.out.println("Spoluprace přidána ");
+		}
+		else
+		{
+			System.out.println("Chyba při zadávání spolupráce");
+		}
 	}
 
 }
