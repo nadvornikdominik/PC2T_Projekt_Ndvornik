@@ -32,7 +32,8 @@ public class main {
 				case 2:
 					addCoworker();
 					break;
-				case 3: 
+				case 3:
+					removeWorker();
 					break;
 				case 4: 
 					break;
@@ -122,6 +123,18 @@ public class main {
 		else
 		{
 			System.out.println("Chyba při zadávání spolupráce");
+		}
+	}
+	
+	private static void removeWorker() {
+		System.out.println("ID Zaměstnance co se má odstranit: ");
+		int id = sc.nextInt();
+		
+		if(database.removeWorker(id)) {
+			System.out.println("Zaměstnanec úspěšně odstraněn");
+		}
+		else {
+			System.out.println("Zaměstnanec nenalezen");
 		}
 	}
 

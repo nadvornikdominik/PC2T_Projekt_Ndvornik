@@ -40,8 +40,12 @@ public abstract class Worker {
 		return group;
 	}
 	
-	public boolean addCoorker(int id2, WorkCoop level) {
+	public boolean addCoworker(int id2, WorkCoop level) {
 		coworkers.put(id, level);
 		return true;
+	}
+	
+	public boolean removeCoworker(int id) {
+		return coworkers.remove(id) != null;
 	}
 }

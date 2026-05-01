@@ -10,6 +10,14 @@ public class WorkerDatabase {
 		cooperations = new HashMap<>();
 	}
 	
+	public Worker getWorker(int id) {
+		return workers.get(id);
+	}
+	
+	public int getSize() {
+		return workers.size();
+	}
+	
 	public boolean addWorker(Worker w) {
 		workers.put(w.getId(), w);
 		
@@ -21,8 +29,8 @@ public class WorkerDatabase {
 		Worker w2 = workers.get(id2);
 		if(w1 == null || w2 == null )return false;
 		
-		w1.addCoorker(id2, level);
-		w2.addCoorker(id1, level);
+		w1.addCoworker(id2, level);
+		w2.addCoworker(id1, level);
 		
 		cooperations.get(id1).add(id2);
 		cooperations.get(id2).add(id1);
@@ -31,11 +39,16 @@ public class WorkerDatabase {
 		
 	}
 	
-	public Worker getWorker(int id) {
-		return workers.get(id);
+	public boolean removeWorker(int id) {
+		Worker w = workers.remove(id);
+		if (w == null) return false;
+		
+		for(Worker wo : workers.values()) {
+			wo.removeCoworker(id);
+		}
+		
+		cooperations.remove(id);
+		return true;
 	}
 	
-	public int getSize() {
-		return workers.size();
-	}
 }
