@@ -1,8 +1,3 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class main {
@@ -35,7 +30,8 @@ public class main {
 				case 3:
 					removeWorker();
 					break;
-				case 4: 
+				case 4:
+					findWorker();
 					break;
 				case 5: 
 					break;
@@ -132,6 +128,21 @@ public class main {
 		
 		if(database.removeWorker(id)) {
 			System.out.println("Zaměstnanec úspěšně odstraněn");
+		}
+		else {
+			System.out.println("Zaměstnanec nenalezen");
+		}
+	}
+	
+	private static void findWorker() {
+		System.out.println("ID zaměstnance k vyhledání: ");
+		int id = sc.nextInt();
+		
+		Worker w = database.findWorker(id);
+		
+		if (w != null) {
+			System.out.printf("\nZaměstnanec: %s %s narozen: %d, povoláním: %s",w.getName(), w.getSurname(), w.getYear(), w.getGroup());
+			System.out.printf("\nPrůměrná kvalita spolupráce: %.2f (1 = špatná, 3 = dobrá)", database.getAvgCoop(w));
 		}
 		else {
 			System.out.println("Zaměstnanec nenalezen");

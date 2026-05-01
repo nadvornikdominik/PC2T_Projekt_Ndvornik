@@ -1,11 +1,5 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class FileHandler {
 
@@ -31,7 +25,7 @@ public class FileHandler {
 			for(int i = 1; i <= database.getSize(); i++) {
 				Worker w = database.getWorker(i);
 				
-				writer.write(w.getName()+","+w.getSurname()+","+w.getYear()+","+w.getGroup());
+				writer.write(w.getName()+";"+w.getSurname()+";"+w.getYear()+";"+w.getGroup()+";"+database.getCoop(w));
 				writer.newLine();
 			}
 			writer.close();
@@ -47,20 +41,24 @@ public class FileHandler {
 			String line;
 			
 			while((line = reader.readLine()) != null) {
-				String[] in = line.split(",", 4);
+				String[] in = line.split(";", 5);
 				String name = in[0];
 				String surname = in[1];
 				int year = Integer.parseInt(in[2]);
 				String group = in[3];
+				String coop[] = in[4].replaceAll("[\\[\\] ]", "").split(",");
+				Set<Integer> coop2 = convertArrayToSet(coop);
 				Worker worker;
 				if(group.equals("DATA_ANALYST")) {
 					worker = new DataAnalyst(name, surname, year);
 					database.addWorker(worker);
+					database.loadCoop(coop2, worker.getId());
 					System.out.printf("\nZaměstnanec úspěšně načten, ID: %d, skupina: %s",worker.getId(), worker.getGroup());
 				}
 				else if (group.equals("SECURITY_SPECIALIST")) {
 					worker = new SecuritySpecialist(name, surname, year);
 					database.addWorker(worker);
+					database.loadCoop(coop2, worker.getId());
 					System.out.printf("\nZaměstnanec úspěšně načten, ID: %d, skupina: %s",worker.getId(), worker.getGroup());
 				}
 				else {
@@ -77,5 +75,13 @@ public class FileHandler {
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Set<Integer> convertArrayToSet(String in[]){
+		Set<Integer> out = new HashSet<>();
+		for(String s: in) {
+			out.add(Integer.parseInt(s));
+		}
+		return out;
 	}
 }

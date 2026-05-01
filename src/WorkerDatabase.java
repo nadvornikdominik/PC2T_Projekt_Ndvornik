@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class WorkerDatabase {
 	private Map<Integer, Worker> workers;
@@ -20,7 +19,7 @@ public class WorkerDatabase {
 	
 	public boolean addWorker(Worker w) {
 		workers.put(w.getId(), w);
-		
+		cooperations.put(w.getId(), new HashSet<>());
 		return true;
 	}
 	
@@ -39,6 +38,23 @@ public class WorkerDatabase {
 		
 	}
 	
+	public void loadCoop(Set<Integer> set, int id) {
+		cooperations.get(id).addAll(set);
+	}
+	
+	public double getAvgCoop(Worker w) {
+		int sum;
+		int id = w.getId();
+		sum = cooperations.get(id).stream().mapToInt(Integer::intValue).sum();
+		double avg = (double)sum / (double)cooperations.get(id).size();
+		return avg;
+	}
+	
+	public Set<Integer> getCoop(Worker w){
+		int id = w.getId();
+		return cooperations.get(id);
+	}
+	
 	public boolean removeWorker(int id) {
 		Worker w = workers.remove(id);
 		if (w == null) return false;
@@ -49,6 +65,10 @@ public class WorkerDatabase {
 		
 		cooperations.remove(id);
 		return true;
+	}
+	
+	public Worker findWorker(int id) {
+		return workers.get(id);
 	}
 	
 }

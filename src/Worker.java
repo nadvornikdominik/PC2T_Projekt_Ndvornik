@@ -48,4 +48,11 @@ public abstract class Worker {
 	public boolean removeCoworker(int id) {
 		return coworkers.remove(id) != null;
 	}
+	
+	public double getAvgCompatibility() {
+		if (coworkers.isEmpty()) return 0;
+		double sum = coworkers.values().stream().mapToDouble(WorkCoop::getValue).sum(); //Found online
+		double avg = sum/(double)coworkers.size();
+		return avg;
+	}
 }
