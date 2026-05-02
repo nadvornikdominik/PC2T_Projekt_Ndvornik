@@ -33,13 +33,16 @@ public class main {
 				case 4:
 					findWorker();
 					break;
-				case 5: 
+				case 5:
+					launchAbility();
 					break;
-				case 6: 
+				case 6:
+					database.alphabeticalList();
 					break;
 				case 7: 
 					break;
 				case 8: 
+					x();
 					break;
 				case 0: 
 					file.addToFile(database);
@@ -113,6 +116,7 @@ public class main {
 			default -> null;
 		};
 		
+		
 		if(c != null && database.addCoop(id1, id2, c)) {
 			System.out.println("Spoluprace přidána ");
 		}
@@ -148,5 +152,24 @@ public class main {
 			System.out.println("Zaměstnanec nenalezen");
 		}
 	}
+	
+	private static void launchAbility() {
+		System.out.println("ID zaměstnance: ");
+		int id = sc.nextInt();
+		Worker w = database.getWorker(id);
+		if(w != null) {
+			System.out.println(w.ability());
+		}
+		else {
+			System.out.println("Zaměstnanec nenalezen");
+		}
+	}
+	
+	private static void x() {
+		int id = 1;
+		System.out.println(database.getWorker(id).getCoworkersAmount());
+	}
+	
+	
 
 }

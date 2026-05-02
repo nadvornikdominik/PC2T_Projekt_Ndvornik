@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.IntStream;
 
 public abstract class Worker {
 	
@@ -41,7 +42,7 @@ public abstract class Worker {
 	}
 	
 	public boolean addCoworker(int id2, WorkCoop level) {
-		coworkers.put(id, level);
+		coworkers.put(id2, level);
 		return true;
 	}
 	
@@ -51,8 +52,17 @@ public abstract class Worker {
 	
 	public double getAvgCompatibility() {
 		if (coworkers.isEmpty()) return 0;
-		double sum = coworkers.values().stream().mapToDouble(WorkCoop::getValue).sum(); //Found online
-		double avg = sum/(double)coworkers.size();
-		return avg;
+
+	    double sum = coworkers.values().stream().mapToInt(WorkCoop::getValue).sum();
+	    double avg = sum/idCounter;
+
+	    return (double) avg;
+	}
+	
+	public abstract String ability();
+	
+	
+	public int getCoworkersAmount() {
+		return coworkers.size();
 	}
 }

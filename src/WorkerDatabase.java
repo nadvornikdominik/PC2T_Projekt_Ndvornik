@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WorkerDatabase {
 	private Map<Integer, Worker> workers;
@@ -69,6 +70,13 @@ public class WorkerDatabase {
 	
 	public Worker findWorker(int id) {
 		return workers.get(id);
+	}
+	
+	public void alphabeticalList() {
+		String sorted = workers.values().stream().sorted(Comparator.comparing(Worker::getSurname).thenComparing(Worker::getName))
+				.map(w -> String.format("#%d, %s %s, %d, %s", w.getId(), w.getSurname(), w.getName(), w.getYear(), w.getGroup()))
+				.collect(Collectors.joining("\n"));
+		System.out.println(sorted);
 	}
 	
 }

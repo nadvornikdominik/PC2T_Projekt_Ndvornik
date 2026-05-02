@@ -36,8 +36,7 @@ public class FileHandler {
 	}
 	
 	public void readFromFile(WorkerDatabase database) {
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader("Memory.txt"));
+		try (BufferedReader reader = new BufferedReader(new FileReader("Memory.txt"))) {
 			String line;
 			
 			while((line = reader.readLine()) != null) {
