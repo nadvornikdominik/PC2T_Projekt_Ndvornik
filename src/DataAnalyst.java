@@ -7,19 +7,33 @@ public class DataAnalyst extends Worker {
 	}
 	
 	@Override
-    public String ability() {
-        Map<Integer, Integer> contacts = new HashMap<>();
+    public String ability(WorkerDatabase database) {
         
-        if (contacts.isEmpty()) {
-            return "Žádní spolupracovníci pro analýzu";
+		Map<Integer, Set<Integer>> allSets = new HashMap<>();
+		
+		for(Worker w : database.getWorkers().values()) {
+			allSets.put(w.getId(), database.getCoop(w));	
+		}
+		
+		Set<Integer> mySet = getCoworkers().keySet();
+		
+		int bestId = 0;
+        int bestScore = 0;
+        
+        for(Map.Entry<Integer, Set<Integer>> entry : allSets.entrySet()) {
+        	
+        	Set<Integer> copy = new HashSet<>(mySet);
+        	copy.retainAll(entry.getValue());
+        	
+        	int score = copy.size();
+        	
+        	if(score > bestScore & entry.getKey() != id) {
+        		bestScore = score;
+        		bestId = entry.getKey();
+        	}
         }
         
-        int maxSpolecnych = contacts.values().stream().mapToInt(Integer::intValue).max().orElse(0);
-        return String.format("Nejvíce společných kontaktů (%d): %s", 
-                maxSpolecnych, contacts.entrySet().stream()
-                .filter(e -> e.getValue() == maxSpolecnych)
-                .map(e -> "#" + e.getKey())
-                .collect(java.util.stream.Collectors.joining(", ")));
+        return String.format("Nejvíce společných kontaktů (%d): %s", bestScore, bestId);
     }
 
 }

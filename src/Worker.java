@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.IntStream;
 
 public abstract class Worker {
 	
@@ -11,7 +10,7 @@ public abstract class Worker {
 	protected int year;
 	protected WorkerGroup group;
 	
-	protected Map<Integer, WorkCoop> coworkers;
+	public Map<Integer, WorkCoop> coworkers;
 	
 	public Worker(String name, String surname, int year, WorkerGroup group) {
 		this.id = idCounter++;
@@ -54,12 +53,12 @@ public abstract class Worker {
 		if (coworkers.isEmpty()) return 0;
 
 	    double sum = coworkers.values().stream().mapToInt(WorkCoop::getValue).sum();
-	    double avg = sum/idCounter;
+	    double avg = sum/coworkers.size();
 
 	    return (double) avg;
 	}
 	
-	public abstract String ability();
+	public abstract String ability(WorkerDatabase database);
 	
 	
 	public int getCoworkersAmount() {

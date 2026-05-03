@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class WorkerDatabase {
-	private Map<Integer, Worker> workers;
+	public Map<Integer, Worker> workers;
 	private Map<Integer, Set<Integer>> cooperations;
 	
 	public WorkerDatabase() {
@@ -77,6 +77,57 @@ public class WorkerDatabase {
 				.map(w -> String.format("#%d, %s %s, %d, %s", w.getId(), w.getSurname(), w.getName(), w.getYear(), w.getGroup()))
 				.collect(Collectors.joining("\n"));
 		System.out.println(sorted);
+	}
+	
+	public void stats() {
+		if(workers.isEmpty()) {
+			System.out.println("Žádní zaměstnanci");
+			return;
+		}
+		
+		double max = 0;
+		int top = 0;
+		Set<Integer> bestCoworkers = new HashSet<>();
+		Set<Integer> mostCoworkers = new HashSet<>();
+		
+		for(Worker w : workers.values()) {
+			if(w.getCoworkersAmount() > top) {
+				top = w.getCoworkersAmount();
+			}
+			if(getAvgCoop(w) > max) {
+				max = getAvgCoop(w);
+			}
+		}
+		
+		for(Worker w : workers.values()) {
+			if(getAvgCoop(w) == max) {
+				bestCoworkers.add(w.getId());
+			}
+			if(w.getCoworkersAmount() == top) {
+				mostCoworkers.add(w.getId());
+			}
+		}
+		
+		System.out.printf("\nNejvíce kolegů(%d) má/mají: %s\nNejlepší kolega se skóre(%.1f) je: %s", top, mostCoworkers, max, bestCoworkers);
+	}
+	
+	public Map<Integer, Worker> getWorkers(){
+		return workers;
+	}
+	
+	public void getAmountIngroups() {
+		int data = 0;
+		int security = 0;
+		for(Worker w : workers.values()) {
+			if(w.getGroup() == WorkerGroup.DATA_ANALYST) {
+				data += 1;
+			}
+			else if(w.getGroup() == WorkerGroup.SECURITY_SPECIALIST) {
+				security += 1;
+			}
+		}
+		
+		System.out.printf("\nPočet datových analitiků: %d\nPočet bezpečnostních specialistů: %d", data, security);
 	}
 	
 }

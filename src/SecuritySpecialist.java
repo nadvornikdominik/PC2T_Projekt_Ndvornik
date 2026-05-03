@@ -7,7 +7,7 @@ public class SecuritySpecialist extends Worker {
 	}
 	
 	@Override
-	public String ability() {
+	public String ability(WorkerDatabase database) {
 		int amount = getCoworkersAmount();
 		double avg = getAvgCompatibility();
 		

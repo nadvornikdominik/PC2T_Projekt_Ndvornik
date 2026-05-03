@@ -40,9 +40,10 @@ public class main {
 					database.alphabeticalList();
 					break;
 				case 7: 
+					database.stats();
 					break;
 				case 8: 
-					x();
+					database.getAmountIngroups();
 					break;
 				case 0: 
 					file.addToFile(database);
@@ -158,7 +159,7 @@ public class main {
 		int id = sc.nextInt();
 		Worker w = database.getWorker(id);
 		if(w != null) {
-			System.out.println(w.ability());
+			System.out.println(w.ability(database));
 		}
 		else {
 			System.out.println("Zaměstnanec nenalezen");
